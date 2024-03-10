@@ -220,6 +220,17 @@ class ChatSerializer(serializers.ModelSerializer):
             'users'
         ]
 
+    # исключаем текущего пользователя из выводимого списка пользователей чата
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get('request', None)
+
+        if request and request.user:
+            current_user_id = request.user.id
+            data['users'] = [user for user in data['users'] if user['id'] != current_user_id]
+
+        return data
+
 ######### КАСТОМИЗАЦИЯ JWT-ТОКЕНОВ #########
 # class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 #     @classmethod

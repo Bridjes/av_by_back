@@ -29,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return f"{self.username} {self.email}"
+        return f"{self.username}"
 
     def get_short_name(self):
         return self.username
