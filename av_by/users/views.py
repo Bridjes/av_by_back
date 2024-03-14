@@ -128,7 +128,7 @@ class ChatMessageCreateView(generics.CreateAPIView):
 
         chat.messages.add(chat_message)
 
-        serializer = ChatMessageSerializer(chat_message)
+        serializer = ChatMessageCreateSerializer(chat_message)
         return Response({"message": "Сообщение создано", "data": serializer.data}, status=status.HTTP_201_CREATED)
 
         # chat, created = Chat.objects.get_or_create()
@@ -154,3 +154,9 @@ class ChatMessageRetrieveView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Chat.objects.filter(users=user)
+
+# обновить сообщение в чате
+class ChatMessageUpdateView(generics.RetrieveUpdateAPIView):
+    serializer_class = ChatMessageUpdateSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = ChatMessage.objects.all()

@@ -60,7 +60,7 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(ChatMessage)
 class ChatMessageAdmin(admin.ModelAdmin):
-    list_display = ('date_time', 'short_text', 'user_create', 'id')
+    list_display = ('date_time', 'short_text', 'user_create', 'status', 'id')
     search_fields = ('date_time', 'text', 'id')
     readonly_fields = ('date_time', 'user_create')
 

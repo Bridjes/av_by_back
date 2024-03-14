@@ -195,7 +195,7 @@ class UserInfoRetrieveSerializer(serializers.ModelSerializer):
             'photo',
         )
 
-class ChatMessageSerializer(serializers.ModelSerializer):
+class ChatMessageCreateSerializer(serializers.ModelSerializer):
     user_create = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = ChatMessage
@@ -209,6 +209,28 @@ class ChatMessageRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
         fields = '__all__'
+
+class ChatMessageUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = '__all__'
+        read_only_fields = [
+            'date_time',
+            'user_create',
+        ]
+
+    def update(self, instance, validated_data):
+        # убираем ключи со значениями None из словаря
+        for key, value in list(validated_data.items()):
+            if value is None:
+                del validated_data[key]
+
+        instance.text = validated_data.get('text', instance.text)
+        instance.status = validated_data.get('status', instance.status)
+
+        instance.save()
+        return instance
+
 
 class ChatSerializer(serializers.ModelSerializer):
     users = UserInfoRetrieveSerializer(many=True)

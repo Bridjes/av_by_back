@@ -103,10 +103,7 @@ class ChatMessage(models.Model):
     text = models.TextField(verbose_name="Текст сообщения")
     date_time = models.DateTimeField(verbose_name="Дата отправки", auto_now_add=True)
     user_create = models.ForeignKey(User, verbose_name="Отправитель", on_delete=models.DO_NOTHING, blank=True, null=True)
-    # read_by = models.ManyToManyField(User,
-    #                                  related_name='read_messages',
-    #                                  verbose_name="Прочитано пользователями",
-    #                                  blank=True)
+    status = models.BooleanField(verbose_name="статус прочтения получателем", default=False)
 
     def __str__(self):
         return f"{self.user_create.username} [{self.date_time.strftime('%d.%m.%y %H:%M')}]: {self.text[:50]}"

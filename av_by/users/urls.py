@@ -17,4 +17,5 @@ urlpatterns = [
 
     path('v1/chat_message/create/', ChatMessageCreateView.as_view(), name='chat_message_create'),
     path('v1/chat_message/list/', ChatMessageRetrieveView.as_view(), name='chat_message_list_view'),
+    path('v1/chat_message/update/<int:pk>', ChatMessageUpdateView.as_view(), name='chat_message_update_view'),
 ]
