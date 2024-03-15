@@ -129,7 +129,9 @@ class ChatMessageCreateView(generics.CreateAPIView):
         chat.messages.add(chat_message)
 
         serializer = ChatMessageCreateSerializer(chat_message)
-        return Response({"message": "Сообщение создано", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Сообщение создано",
+                         "data": serializer.data, "chat_id": chat.id
+                         }, status=status.HTTP_201_CREATED)
 
         # chat, created = Chat.objects.get_or_create()
         # chat.users.add(self.request.user)
