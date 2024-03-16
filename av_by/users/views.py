@@ -129,8 +129,21 @@ class ChatMessageCreateView(generics.CreateAPIView):
         chat.messages.add(chat_message)
 
         serializer = ChatMessageCreateSerializer(chat_message)
-        return Response({"message": "Сообщение создано",
-                         "data": serializer.data, "chat_id": chat.id
+        return Response({"info": "Сообщение создано",
+                         "message": serializer.data,
+                         "chat_id": chat.id,
+                         "users": [
+                             {
+                                 "id": f"{user.id}",
+                                 "username": f"{user.username}",
+                                 "photo": f"{request.build_absolute_uri(user.photo.url) if user.photo else None}"
+                             },
+                             {
+                                 "id": f"{self.request.user.id}",
+                                 "username": f"{self.request.user.username}",
+                                 "photo": f"{request.build_absolute_uri(self.request.user.photo.url) if self.request.user.photo else None}"
+                             }
+                         ]
                          }, status=status.HTTP_201_CREATED)
 
         # chat, created = Chat.objects.get_or_create()

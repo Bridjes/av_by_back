@@ -196,7 +196,7 @@ class UserInfoRetrieveSerializer(serializers.ModelSerializer):
         )
 
 class ChatMessageCreateSerializer(serializers.ModelSerializer):
-    user_create = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    user_create = UserInfoRetrieveSerializer(read_only=True)
     class Meta:
         model = ChatMessage
         fields = '__all__'
